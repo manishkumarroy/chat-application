@@ -1,0 +1,315 @@
+.chatWindow{
+background-color: rgb(216, 216, 216);
+  display: flex;
+  min-height: 100vh;
+  justify-content: flex-start;
+}
+
+body{
+
+  overflow: hidden;
+
+}
+
+.chatWindow .sideBar{
+  width: 25%;
+  box-shadow: 3px 2px 2px rgb(196, 196, 196);
+  position: relative;
+  z-index: 5;
+
+}
+ 
+p{
+  margin-block-end: 0px !important;
+}
+
+
+
+.chatWindow .onlineChatScreen{
+  width: 75%;
+  
+ 
+  
+}
+
+.onlineChatScreen .messageScreen{
+  background-color: rgb(241, 241, 241) !important;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.profileScreen{
+  
+  width: 75%;
+}
+
+
+
+.sideBar .options{
+  background-color: rgb(80, 79, 79) !important;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-around;
+  color: aliceblue;
+  align-items: center;
+  
+
+}
+
+.sideBar .options div{
+  width: 36px ;
+  display: flex;
+  justify-content: center;
+ 
+ 
+  
+  
+}
+
+.sideBar .options div i{
+  width:24px;
+  cursor: pointer;
+
+}
+
+.sideBar .options .active{
+   border-bottom: 4px solid dodgerblue;
+  
+  border-radius: 5%;
+
+}
+
+.sideBar .initialChat{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 82vh;
+}
+.sideBar .initialChat button{
+  border-top-right-radius: 50px;
+ border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+  
+}
+
+.semiRound{
+  border-top-right-radius: 50px;
+ border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+}
+
+i{
+  cursor: pointer;
+  user-select:none;
+}
+
+.chatWindow .sideBar .userInfo{
+   background-color: rgb(5, 125, 180);
+   width: 100%;
+   min-height: 70px;
+   display: flex;
+   align-items: center;
+}
+
+.chatWindow  .sideBar i{
+  color: rgb(255, 255, 255) !important; 
+}
+
+ .chatWindow  .sideBar .contentList i{
+  color: rgb(59, 106, 238) !important;
+} 
+
+.chatList{
+  
+  
+height:inherit;
+
+}
+
+.sideBar .contentList{
+  background-color: rgba(252, 252, 252, 0.87);
+  height: 80vh;
+  width:100%;
+}
+
+.centerFlex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.centerFlexRow{
+
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+}
+.sideBar .initialFriendList{
+  height: inherit;
+}
+
+.sideBar .initialFriendList{
+  height: inherit;
+
+}
+
+.chatWindow .search{
+  width: 100%;
+ border: 50px;
+ outline: 0px;
+
+ border-top-right-radius: 50px;
+ border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+ font-size: 16px;
+ 
+ 
+}
+
+
+
+.chatWindow .search :focus{
+  border: 0px !important;
+  outline: 0px !important;
+  display: none;
+}
+
+.sendMessageInput{
+  display: flex;
+  width:100%;
+  justify-content: space-between;
+  align-items: center;
+border-radius: 0px !important;
+  position:relative;
+  z-index: 5;
+background-color: rgb(5, 125, 180);
+ 
+
+
+}
+
+
+.onlineChatScreen .topBar{
+  
+ 
+  background-color: rgb(5, 125, 224) !important;
+  box-shadow: 3px 2px 2px rgb(196, 196, 196);
+  position: relative;
+  z-index: 5;
+  border-radius: 0px !important;
+  display: flex;
+  align-items: center;
+}
+.sendMessageInput input{
+  flex-basis: 85%;
+padding-left: 10px;
+border-color: transparent;
+border-top-right-radius: 50px;
+ border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+
+  
+  
+
+}
+
+.sendMessageInput input :focus{
+  border: 0px !important;
+  outline:0px !important;
+  display: none !important;
+}
+.sendMessageInput .send{
+  width: 6%;
+  text-align: center;
+  
+ 
+  
+}
+
+.sendMessageInput i{
+  flex-basis: 4%;
+  color: white;
+  cursor: pointer;
+}
+
+.chatList p{
+ margin-block-end: 0px;
+  
+}
+
+.message{
+  margin-bottom: 10px;
+  border-top-left-radius: 330px/50% !important;
+    max-width: 30%;
+   display: block !important;
+   color: rgb(80, 80, 80);
+  
+   
+
+  
+}
+
+.profileScreen .userProfile .extraInfo{
+ width:30%;
+}
+
+.profileScreen .userProfile .extraInfo div{
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 8px;
+  padding: 2px;
+  padding-left: 5px;
+  border-top-right-radius: 50px;
+ border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ 
+
+ 
+ 
+  
+
+}
+
+.profileScreen .userProfile .extraInfo i{
+  background-color: dodgerblue;
+ border-top-right-radius: 50px;
+   border-bottom-right-radius: 50px;
+ border-top-left-radius:50px;
+ border-bottom-left-radius: 50px;
+ width: 35px;
+ color: white;
+ position: relative;
+ padding: 5px;
+
+}
+.profileScreen .userProfile{
+display: flex;
+align-items: center;
+ 
+flex-direction: column;
+justify-content: center;
+height: 90vh;
+  
+ 
+  
+}
+.userProfile .extraInfo h5{
+  margin-block-end: 0px;
+  
+  width: 81%;
+  color: rgb(114, 114, 114);
+  font-size: 18px;
+  
+}
