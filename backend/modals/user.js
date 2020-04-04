@@ -17,19 +17,20 @@ const userSchema = new Schema({
             dpURL: { type: String },
             stage: { type: Boolean, required: true },
             sender: { type: Boolean, required: true },
-            email:{type:String},
+            email: { type: String },
         }
     ],
     fastMessages: [{
 
         recieverId: { type: Schema.Types.ObjectId, ref: 'user' },
         name: { type: String },
-       
+
         messages: [{
             deliveredTime: { type: Date },
-            sentTime: { type: Date, require: true },
+            sentTime: { type: String, require: true },
             receivedTime: { type: Date },
-            messageText: { type: String, require: true }
+            messageText: { type: String, require: true }, sender: { type: Boolean, require: true },
+            status: { type: String, require: true }
         }]
 
 

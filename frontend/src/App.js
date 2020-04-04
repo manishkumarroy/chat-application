@@ -10,30 +10,39 @@ import store from './store'
 
 
 
-function App() {
+
+
+
+
+
+export default function App(props) {
+
+
+
+
 
 
   return (
 
-    <Router>
-      <Provider store={store}>
-        <div className="App">
-          <Switch >
-            <Route exact path="/" component={Login} />
 
-            <Route exact path="/signup">
-              <SignUp />
-            </Route>
+    <Router><Provider store={store}>
+      <div className="App">
+        <Switch >
+          <Route exact path="/" component={Login} />
 
-            <Route exact path="/chat" component={ChatWindow} />
+          <Route exact path="/signup">
+            <SignUp />
+          </Route>
 
-          </Switch>
+          <Route exact path="/chat" component={ChatWindow} />
+
+        </Switch>
 
 
-        </div>
-      </Provider>
-    </Router>
+      </div>
+    </Provider></Router>
+
   );
 }
 
-export default App;
+

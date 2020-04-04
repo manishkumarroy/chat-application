@@ -1,19 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setFastMessages } from "../../actions/messageAction";
-import io from 'socket.io-client'
+
 import { useEffect } from "react";
 
-const socket = io.connect("http://localhost:5000");
+import { socket } from "../ChatWindow/ChatWindow"
 
 const sendMessage = (props) => {
-    const msgDetails = {
-        message: document.querySelector(".msgInput").value,
+    let msgDetails = {
+        messageText: document.querySelector(".msgInput").value,
 
-        reciever: props.reciever.email
+        recieverId: props.reciever.friend_id,
+        senderId: props.user._id,
+        sentTime: new Date().toLocaleTimeString()
 
     };
+
+
     socket.emit("privateMessage", msgDetails);
+
     props.setFastMessages(msgDetails);
 
 
@@ -24,9 +29,9 @@ const sendMessage = (props) => {
 function SendMessageInput(props) {
 
     useEffect(() => {
-        socket.emit("newUser", props.user)
+
         socket.on("privateMessageBackend", (msgDetails) => {
-            console.log(msgDetails)
+            console.log(msgDetails, "hua")
             props.setFastMessages(msgDetails);
         })
 

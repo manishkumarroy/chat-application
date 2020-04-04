@@ -248,16 +248,49 @@ border-top-right-radius: 50px;
 
 .message{
   margin-bottom: 10px;
-  border-top-left-radius: 330px/50% !important;
-    max-width: 30%;
-   display: block !important;
+  
+  
+  max-width: 30% !important;
    color: rgb(80, 80, 80);
+   box-shadow:1px 1px 1px rgb(190, 190, 190);
   
    
 
   
 }
 
+.message .time{
+  font-size: 12px;
+  width: 70px;
+  
+}
+
+.message i{
+ font-size: 13px;
+ width: 15px;
+ 
+ 
+}
+
+
+
+.messageScreen .message-sent{
+  background-color: rgba(11, 118, 206, 0.918);
+  color: white;
+}
+
+.message .extras{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  
+ 
+
+}
+.message .extras .time{
+  flex: 1;
+ 
+}
 .profileScreen .userProfile .extraInfo{
  width:30%;
 }

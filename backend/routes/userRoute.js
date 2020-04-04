@@ -69,7 +69,7 @@ UserRouter.post("/login", async (req, res) => {
     console.log(req.body)
 
     try {
-        let user = await User.findOne({ email: username })
+        let user = await User.findOne({ email: username }).select(["_id", "name", "email", "password"])
 
         if (user) {
             if (user.password === password)
@@ -109,6 +109,17 @@ UserRouter.get("/online", async (req, res) => {
     }
 })
 
+UserRouter.get("/messages/:id", async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id })
+        if (user)
+            res.status(200).json(user.fastMessages)
+    }
+    catch (err) {
+        res.status(400).json(err)
+    }
+})
+
 
 
 
@@ -124,7 +135,7 @@ UserRouter.get("/friends/:id", async (req, res) => {
         }
 
         else
-          res.status(200).json([])
+            res.status(200).json([])
 
 
     }
@@ -137,7 +148,7 @@ UserRouter.get("/friends/:id", async (req, res) => {
 UserRouter.post("/addFriend", async (req, res) => {
     const friendId = req.body.friendId;
     const senderId = req.body.senderId;
-    
+
 
 
     console.log(req.body.senderId)
@@ -146,12 +157,12 @@ UserRouter.post("/addFriend", async (req, res) => {
 
     try {
         await User.findByIdAndUpdate(senderId, {
-            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: false,email:req.body.friendEmail } },
+            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: false, email: req.body.friendEmail } },
 
         })
 
         await User.findByIdAndUpdate(friendId, {
-            $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: false,email:req.body.senderEmail } },
+            $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: false, email: req.body.senderEmail } },
 
         })
 

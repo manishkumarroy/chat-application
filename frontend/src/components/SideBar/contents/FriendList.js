@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { backendURL } from '../../../config'
 import { changeChatScreen } from "../../../actions/transitionAction"
+import { setFastMessages } from "../../../actions/messageAction";
 
 function FriendList(props) {
     const { userId } = props
@@ -11,11 +12,21 @@ function FriendList(props) {
 
     useEffect(() => {
 
+
+
         axios.get(`${backendURL}/user/friends/${userId}`).then(response => {
 
             setLoading(false)
             setFreinds([...response.data])
         })
+
+        axios.get(`${backendURL}/user/messages/${props.userId}`).then((res) => {
+            console.log(res
+            )
+            props.setFastMessages(res.data, true)
+
+        })
+
 
 
 
@@ -34,8 +45,9 @@ function FriendList(props) {
                     user => <li className="list-group-item mb-2  text-dark centerFlexRow"
                         id={user["_id"]} style={{ cursor: "pointer" }}
 
-                        key={user["_id"]} onClick={(e) => {if(!e.target.classList.contains("material-icons"))
-                            props.changeChatScreen({ value: { userDetails: user, userId: null }, type: "friendProfileView" })
+                        key={user["_id"]} onClick={(e) => {
+                            if (!e.target.classList.contains("material-icons"))
+                                props.changeChatScreen({ value: { userDetails: user, userId: null }, type: "friendProfileView" })
                         }}>
                         <img src="https://i.pinimg.com/736x/2f/4e/8f/2f4e8f862d6f66b2107081fcb35473cd.jpg" alt=""
                             style={{ borderRadius: "50%" }}
@@ -44,7 +56,7 @@ function FriendList(props) {
 
                         </h6>
 
-                        <i className="material-icons ml-auto" onClick={()=>{
+                        <i className="material-icons ml-auto" onClick={() => {
                             props.changeChatScreen({ value: { userDetails: user, userId: null }, type: "messageView" })
                         }}>message</i>
 
@@ -70,4 +82,4 @@ const mapStateToProps = (state) => {
     })
 
 }
-export default connect(mapStateToProps, { changeChatScreen })(FriendList)
+export default connect(mapStateToProps, { changeChatScreen, setFastMessages })(FriendList)
