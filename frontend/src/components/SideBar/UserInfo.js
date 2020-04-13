@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { sideBarChanger } from '../../actions/sideBarAction'
 
 function UserInfo(props) {
     const User = props.user
@@ -11,10 +12,24 @@ function UserInfo(props) {
             <h6 className="text-light ml-2">{User.name}</h6>
 
             <div className="ml-auto">
-                <i className="material-icons text-dark">
+                <i className="material-icons text-dark" onClick={()=>{
+                    props.sideBarChanger({value:true,type:"searchViewChange"})
+                }}>
                     search</i>
-                <i className="material-icons text-dark mx-3">
-                    notifications</i>
+                <span style={{ position: "relative" }}>
+                <i className={props.contentViewer === "showNotifications" ? `material-icons text-dark mx-3 activeNotification` : `material-icons text-dark mx-3 `}
+                   
+                    onClick={() => {
+                        props.sideBarChanger({
+                            value: "showNotifications",
+                            type: "contentViewChange"
+                        })
+                    }}>
+                    notifications
+                  
+                </i>
+                <div className=" rounded-circle p-1 text-light notification-circle" > 2</div>
+                </span>
 
 
                 <i className="material-icons text-dark">
@@ -29,7 +44,8 @@ function UserInfo(props) {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user.userDetails
+    user: state.user.userDetails,
+    contentViewer: state.sideBarChanger.contentViewer
 })
 
-export default connect(mapStateToProps, null)(UserInfo)
+export default connect(mapStateToProps, { sideBarChanger })(UserInfo)

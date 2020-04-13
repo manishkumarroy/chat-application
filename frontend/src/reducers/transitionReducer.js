@@ -4,6 +4,7 @@ const initalState = {
     user: { userDetails: null, userId: null }
 }
 const chatScreenChanger = (state = initalState, action) => {
+
     switch (action.type) {
 
         case 'friendProfileView': return { type: 'friendProfileView', user: action.payload }

@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SendMessageInput from './SendMessageInput'
 import UserProfile from './UserProfile'
 import MessageScreen from './MessageScreen'
 import TopBar from './TopBar'
 import { connect } from 'react-redux'
-import axios from 'axios'
-import { backendURL } from '../../config'
+
 
 function OnlineChatScreen(props) {
+
+    // useEffect(() => {
+    //     if (props.screenView.type !== "default")
+    //         document.querySelector(".sideBar").style.display = "none"
+
+    // }, [props.screenView])
 
 
 
@@ -20,7 +25,7 @@ function OnlineChatScreen(props) {
             <MessageScreen className="sc" />
             <SendMessageInput />
 
-            {window.scrollTo(0, window.scrollHeight)}
+
 
         </div>
 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import UsersList from './contents/UsersList'
 import FriendList from './contents/FriendList'
 import ChatList from './contents/ChatList'
+import Notifications from './contents/Notifications'
 
 
 function ContentList(props) {
@@ -12,7 +13,7 @@ function ContentList(props) {
 
     return (
         <div className="contentList">
-            {contentViewer === "showMessages" ? <ChatList /> : contentViewer === "showFriends" ? <FriendList /> : <UsersList />}
+            {contentViewer === "showMessages" ? <ChatList /> : contentViewer === "showFriends" ? <FriendList /> : contentViewer === "showNotifications" ? <Notifications /> : <UsersList />}
 
 
 

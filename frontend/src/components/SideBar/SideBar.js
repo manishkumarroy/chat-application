@@ -4,16 +4,19 @@ import ContentList from './ContentList'
 
 import Options from './Options'
 import SidebarSearch from './SidebarSearch'
+import { connect } from 'react-redux'
 
 
-export default function SideBar() {
+function SideBar(props) {
     return (
         <div className="sideBar ">
-            <UserInfo />
-            
+            {props.view === true ? <SidebarSearch /> : <UserInfo />}
+
+
             <Options />
-            <SidebarSearch />
-           
+
+
+
             <ContentList />
 
 
@@ -21,5 +24,10 @@ export default function SideBar() {
     )
 }
 
+const mapStateToProps = (state) => ({
+    view: state.sideBarChanger.searchView
 
+})
+
+export default connect(mapStateToProps)(SideBar)
 

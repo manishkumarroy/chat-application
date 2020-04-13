@@ -9,15 +9,23 @@ function ChatList(props) {
 
 
                 {chatList.map(user => <li className="list-group-item mb-2  text-dark "
-                    id={user["_id"]} style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                         props.changeChatScreen(user, "messageView")
                     }}
-                    key={user["_id"]}>
+                    key={user["userId"]}>
                     <img src="https://i.pinimg.com/736x/2f/4e/8f/2f4e8f862d6f66b2107081fcb35473cd.jpg" alt=""
                         style={{ borderRadius: "50%" }}
                         width="40px" height="40px" />
-                    <h6 className="d-inline-block ml-3">{user.name}</h6>
+                    <div className="chat-info ml-3">
+                        <h6 className="d-inline">{user.name}</h6>
+                        <p>{user.lastMessage}</p>
+                    </div>
+                    <p className="ml-auto" style={{ fontSize: "12px" }}>
+                        {user.sentTime}
+
+                    </p>
+
                 </li>)}
             </>
 
@@ -34,6 +42,6 @@ function ChatList(props) {
     )
 }
 const mapStateToProps = (state) => ({
-    chatList: state.user.chatList
+    chatList: state.messageDetails.chats
 })
 export default connect(mapStateToProps, { changeChatScreen })(ChatList)

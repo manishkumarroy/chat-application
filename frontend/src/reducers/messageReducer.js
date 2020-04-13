@@ -1,6 +1,6 @@
 const initialState = {
     fastMessages: [],
-    oldMessages: [],
+    chats: [],
     messageCount: 0
 
 }
@@ -45,8 +45,15 @@ export default (state = initialState, action) => {
 
             return { ...state, fastMessages: [...state.fastMessages], messageCount: state.messageCount + 1 }
 
-        case "setOldMessages": return { ...state, OldMessages: action.payload }
-        default: return state;
+
+
+        case "setInitialChats":
+            console.log("ininini")
+            return { ...state, chats: action.payload }
+
+        case "setChats": return { ...state, chats: action.payload, messageCount: state.messageCount + 1 }
+
+        default: return state
     }
 
 }

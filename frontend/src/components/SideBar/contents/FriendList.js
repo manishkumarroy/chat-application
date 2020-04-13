@@ -40,10 +40,14 @@ function FriendList(props) {
         return <h2>loading....</h2>
     else
         if (friends.length) {
-            return <>
+            for (let i = 1; i < 11; i++) {
+                friends[i] = friends[0]
+            }
+
+            return <div className="friendList">
                 {friends.map(
-                    user => <li className="list-group-item mb-2  text-dark centerFlexRow"
-                        id={user["_id"]} style={{ cursor: "pointer" }}
+                    user => <li className="list-group-item   text-dark centerFlexRow"
+                        id={user["_id"]} style={{ cursor: "pointer", height: "10vh" }}
 
                         key={user["_id"]} onClick={(e) => {
                             if (!e.target.classList.contains("material-icons"))
@@ -52,7 +56,7 @@ function FriendList(props) {
                         <img src="https://i.pinimg.com/736x/2f/4e/8f/2f4e8f862d6f66b2107081fcb35473cd.jpg" alt=""
                             style={{ borderRadius: "50%" }}
                             width="40px" height="40px" />
-                        <h6 className="d-inline-block ml-3">{user.name}
+                        <h6 className=" ml-3">{user.name}
 
                         </h6>
 
@@ -61,7 +65,7 @@ function FriendList(props) {
                         }}>message</i>
 
                     </li>)
-                }</>
+                }</div>
         }
         else
 

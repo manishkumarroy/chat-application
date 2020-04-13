@@ -7,9 +7,16 @@ import { sideBarChanger } from '../../actions/sideBarAction'
 function SidebarSearch(props) {
 
     return (
-        <>
-            {1 ? <div className="py-3 px-2 bg-secondary" >
-                <input type="text" className="search p-2 " placeholder="Search for friends (Provide Username)" onKeyUpCapture={async (e) => {
+        <div className="searchContainer bg-primary py-2 pr-2">
+            <i className="material-icons back text-primary" onClick={() => {
+                props.sideBarChanger({
+                    type: "searchViewChange",
+                    value: false
+                })
+            }}>arrow_left</i>
+            <div className=" searchBox " >
+
+                <input type="text" className="search p-2 bg-primary text-light" placeholder="Search for friends (Provide Username)" onKeyUpCapture={async (e) => {
                     console.log("rr")
                     let searchValue = String(e.target.value)
                     console.log(searchValue)
@@ -39,9 +46,9 @@ function SidebarSearch(props) {
 
 
                 }} />
-            </div> : null}
+            </div></div>
 
-        </>
+
     )
 }
 

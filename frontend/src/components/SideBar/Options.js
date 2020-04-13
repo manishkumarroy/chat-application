@@ -32,8 +32,13 @@ function Options(props) {
     return (
         <div className="options py-2" onClick={(e) => optionChanger(e, props)}>
             <div className={props.sideBarChangerValue === 'showMessages' ? 'active' : null}>
-                <i className="material-icons">
-                    messages</i></div>
+                <span style={{ position: "relative" }}>
+                    <i className="material-icons">
+                        messages</i>
+                    <div className=" rounded-circle p-1 text-light chat-notification-circle" > 4</div>
+                </span>
+            </div>
+
 
             <div className={props.sideBarChangerValue === 'showFriends' ? 'active' : null}>
                 <i className="material-icons">

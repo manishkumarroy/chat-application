@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Component } from 'react'
 
+
 class MessageScreen extends Component {
     render() {
 
@@ -38,10 +39,11 @@ class MessageScreen extends Component {
 
                                         <i className="material-icons">done_all</i>
                                         :
-                                        <>
-                                            <i className="material-icons">check_circle</i>
+                                        msg.status === "sent" ?
 
-                                            <i className="material-icons">done</i>  </>}
+                                            <i className="material-icons">done</i>
+                                            :
+                                            <i className="material-icons">check_circle</i>}
 
 
 

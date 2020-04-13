@@ -4,7 +4,12 @@ background-color: rgb(216, 216, 216);
   min-height: 100vh;
   justify-content: flex-start;
 }
-
+*{
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-block-start: 0px;
+  margin-inline-end: unset;
+}
 body{
 
   overflow: hidden;
@@ -12,7 +17,7 @@ body{
 }
 
 .chatWindow .sideBar{
-  width: 25%;
+  width: 25vw;
   box-shadow: 3px 2px 2px rgb(196, 196, 196);
   position: relative;
   z-index: 5;
@@ -26,10 +31,22 @@ p{
 
 
 .chatWindow .onlineChatScreen{
-  width: 75%;
+  width: 75vw;
   
  
   
+}
+
+.sideBar .chatList li{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.sideBar .chatList .chat-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }
 
 .onlineChatScreen .messageScreen{
@@ -102,6 +119,42 @@ p{
  border-bottom-left-radius: 50px;
 }
 
+.sideBar .notification-list{
+  height: 80vh;
+}
+
+.sideBar .activeNotification{
+  padding: 5px;
+  border-radius: 50%;
+  background-color: rgb(52, 100, 145);
+}
+
+.notification-circle{
+ width: 20px;
+ height:20px;
+ padding: 0px !important;
+ text-align: center;
+ position: absolute;
+ top: 0px;
+ left:27px ;
+ font-size: 13px;
+ background-color: rgba(17, 185, 59, 0.87) !important;
+}
+
+.chat-notification-circle{
+  
+ width: 20px !important;
+ height:20px;
+ padding: 0px !important;
+ text-align: center;
+ position: absolute;
+ top: 6px;
+ left:13px ;
+ font-size: 13px;
+ background-color: rgba(17, 185, 59, 0.87) !important;
+}
+
+
 i{
   cursor: pointer;
   user-select:none;
@@ -146,7 +199,7 @@ height:inherit;
 .centerFlexRow{
 
    display: flex;
-  justify-content: center;
+  
   align-items: center;
   flex-direction: row;
 
@@ -162,19 +215,19 @@ height:inherit;
 
 .chatWindow .search{
   width: 100%;
- border: 50px;
+ 
  outline: 0px;
-
- border-top-right-radius: 50px;
- border-bottom-right-radius: 50px;
- border-top-left-radius:50px;
- border-bottom-left-radius: 50px;
+color: white !important;
+ border: none;
  font-size: 16px;
+ background-color: ;
  
  
 }
 
-
+::placeholder{
+  color: rgb(219, 218, 218);
+}
 
 .chatWindow .search :focus{
   border: 0px !important;
@@ -257,6 +310,10 @@ border-top-right-radius: 50px;
    
 
   
+}
+.sideBar .contentList{
+  overflow-y: scroll;
+
 }
 
 .message .time{
@@ -345,4 +402,50 @@ height: 90vh;
   color: rgb(114, 114, 114);
   font-size: 18px;
   
+}
+.sideBar .searchContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+}
+.sideBar .searchContainer .searchBox{
+ flex: 1;
+}
+.sideBar .searchContainer .back{
+  
+  
+}
+
+.sideBar .searchContainer i{
+
+  font-size: 30px;
+  
+}
+@media  (max-width:576px){
+  .chatWindow{
+    display: block;
+  }
+  .sideBar{
+    width: 100% !important;
+    height: 100vh;
+  }
+
+ .onlineChatScreen{
+   width:100vw !important;
+ }
+
+ .messageScreen{
+   width: inherit !important;
+ }
+}
+
+@media(max-width:768px){
+  .chatWindow .sideBar{
+    width:35vw;
+  }
+
+  .chatWindow .profileScreen{
+    width:65vw;
+  }
 }

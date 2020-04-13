@@ -14,6 +14,22 @@ export const setPrivateMessageResponse = (message) => dispatch => {
     })
 }
 
+export const setInitialChats = (chats) => dispatch => {
+    console.log("initial")
+    return dispatch({
+        type: "setInitialChats",
+        payload: chats
+    })
+}
+
+export const setChats = (chats) => dispatch => {
+    console.log("initial")
+    return dispatch({
+        type: "setChats",
+        payload: chats
+    })
+}
+
 export const setOldMessages = (oldMessages) => dispatch => {
     return dispatch({
         type: "setOldMessages",
