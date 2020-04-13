@@ -10,13 +10,14 @@ const cors = require("cors")
 
 //Importing Routes
 const UserRoute = require("./routes/userRoute")
+const MessagesUserRouter = require("./routes/messagesRoute")
 
 
 
 //Static files setup
 app.use(express.static("public"))
 
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 
 //cors
 app.use(cors())
@@ -27,6 +28,7 @@ app.use(express.json())
 
 //Setting Route Middlewares
 app.use("/user", UserRoute)
+app.use("/messages", MessagesUserRouter)
 
 
 //Database Connection Connect to mongoose

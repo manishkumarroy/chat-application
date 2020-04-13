@@ -157,12 +157,12 @@ UserRouter.post("/addFriend", async (req, res) => {
 
     try {
         await User.findByIdAndUpdate(senderId, {
-            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: false, email: req.body.friendEmail } },
+            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: 'sent', email: req.body.friendEmail } },
 
         })
 
         await User.findByIdAndUpdate(friendId, {
-            $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: false, email: req.body.senderEmail } },
+            $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: 'recieved', email: req.body.senderEmail, new: true } },
 
         })
 
@@ -212,6 +212,16 @@ UserRouter.post("/responseFriendRequest", async (req, res) => {
 
 })
 
+UserRouter.get("/friendRequests/:id", async (req, res) => {
+    try {
+        const friendList = await User.findById({ _id: req.params.id }).select(["friendList"])
+        res.status(200).json(friendList)
+    }
 
+    catch (err) {
+
+        res.status(400).json("Server Error")
+    }
+})
 
 module.exports = UserRouter
