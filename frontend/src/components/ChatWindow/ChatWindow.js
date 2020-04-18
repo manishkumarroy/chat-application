@@ -5,6 +5,8 @@ import io from 'socket.io-client'
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setPrivateMessageResponse, setInitialChats } from '../../actions/messageAction'
+import { setNewNotificationsCount } from '../../actions/userAction'
+
 import axios from 'axios'
 import { backendURL } from '../../config'
 
@@ -48,7 +50,13 @@ function ChatWindow(props) {
 
                 props.setInitialChats(response.data[0].chats)
 
+
+
             })
+
+            axios.get(`${backendURL}/user/newFriendRequests/${user._id}`).then(response => props.setNewNotificationsCount(response.data))
+
+
         }
 
 
@@ -75,5 +83,5 @@ const mapStateToProps = (state) => {
 
 }
 
-export default connect(mapStateToProps, { setPrivateMessageResponse, setInitialChats })(ChatWindow)
+export default connect(mapStateToProps, { setPrivateMessageResponse, setInitialChats, setNewNotificationsCount })(ChatWindow)
 

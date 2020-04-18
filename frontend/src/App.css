@@ -140,6 +140,13 @@ p{
  font-size: 13px;
  background-color: rgba(17, 185, 59, 0.87) !important;
 }
+.notification-accepted{
+}
+.notification-accepted i{
+  font-size: 17px;
+  margin-right: 5px;
+ 
+}
 
 .chat-notification-circle{
   
@@ -199,7 +206,7 @@ height:inherit;
 .centerFlexRow{
 
    display: flex;
-  
+ 
   align-items: center;
   flex-direction: row;
 

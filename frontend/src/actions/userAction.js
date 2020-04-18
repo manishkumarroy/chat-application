@@ -15,10 +15,17 @@ export const setFriendList = (friendList) => dispatch => {
     })
 }
 
-
 export const setChatList = (chatList) => dispatch => {
     return ({
         type: "setChatList",
         payload: chatList
+    })
+}
+
+
+export const setNewNotificationsCount = (count) => dispatch => {
+    return dispatch({
+        type: "setNewNotificationsCount",
+        payload: count
     })
 }

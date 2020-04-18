@@ -17,6 +17,8 @@ function FriendList(props) {
         axios.get(`${backendURL}/user/friends/${userId}`).then(response => {
 
             setLoading(false)
+
+
             setFreinds([...response.data])
         })
 

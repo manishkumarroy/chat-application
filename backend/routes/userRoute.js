@@ -1,6 +1,8 @@
 const express = require("express");
 const UserRouter = express.Router()
 const mongoose = require("mongoose")
+const server = require("../server")
+
 
 require("../modals/user")
 
@@ -157,7 +159,7 @@ UserRouter.post("/addFriend", async (req, res) => {
 
     try {
         await User.findByIdAndUpdate(senderId, {
-            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: 'sent', email: req.body.friendEmail } },
+            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: 'sent', email: req.body.friendEmail, new: true } },
 
         })
 
@@ -172,40 +174,61 @@ UserRouter.post("/addFriend", async (req, res) => {
     }
 })
 
+async function removeFriend(senderId, recieverId) {
+    console.log("deleting")
+
+
+    try {
+        await User.findByIdAndUpdate(senderId, {
+            $pull: { friendList: { $eleMatch: { friend_id: recieverId } } }
+        })
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
 UserRouter.post("/responseFriendRequest", async (req, res) => {
     const friendId = req.body.friendId;
     const senderId = req.body.senderId;
     const senderName = req.body.senderName
     const friendName = req.body.friendName
+    const response = req.body.response
 
 
     console.log(req.body.senderId)
     console.log(friendId)
 
+    if (response === true) {
+        try {
+            await User.updateOne({ _id: senderId }, {
+                $set: { "friendList.$[friend].stage": "accepted", "friendList.$[friend].new": true }, $push: { "fastMessages": { recieverId: senderId, name: friendName, messages: [] } }
+            }
+                , {
+                    arrayFilters: [{ "friend.friend_id": friendId }]
+                })
 
-    try {
-        await User.updateOne({ _id: senderId }, {
-            $set: { "friendList.$[friend].stage": true }, $push: { "fastMessages": { recieverId: senderId, name: friendName, messages: [] } }
+
+            await User.updateOne({ _id: friendId }, {
+                $set: { "friendList.$[friend].stage": "accepted" },
+                $push: { "fastMessages": { recieverId: senderId, name: senderName, message: [] } }
+            }
+                , {
+                    arrayFilters: [{ "friend.friend_id": senderId }]
+                })
+
+
+
+
         }
-            , {
-                arrayFilters: [{ "friend.friend_id": friendId }]
-            })
-
-
-        await User.updateOne({ _id: friendId }, {
-            $set: { "friendList.$[friend].stage": true },
-            $push: { "fastMessages": { recieverId: senderId, name: senderName, message: [] } }
+        catch (err) {
+            console.log(err)
         }
-            , {
-                arrayFilters: [{ "friend.friend_id": senderId }]
-            })
-
-
-
-
     }
-    catch (err) {
-        console.log(err)
+    else {
+        removeFriend(friendId, senderId)
+        removeFriend(senderId, friendId)
     }
 
     res.sendStatus(200);
@@ -222,6 +245,58 @@ UserRouter.get("/friendRequests/:id", async (req, res) => {
 
         res.status(400).json("Server Error")
     }
+})
+
+
+UserRouter.get("/newFriendRequests/:id", async (req, res) => {
+    try {
+        const friendListInfo = await User.findById({ _id: req.params.id }).select(["friendList"])
+        const newFriendRequets = Array.from(friendListInfo.friendList).filter(request => request.new === true)
+
+        res.status(200).json(newFriendRequets.length)
+    }
+
+    catch (err) {
+
+        res.status(400).json("Server Error")
+    }
+})
+
+UserRouter.get("/notifications/seen/:id", async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, {
+            $set: {
+                "friendList.$[friend].new": false
+            },
+        }, {
+            arrayFilters: [{ "friend.new": true }]
+        })
+
+
+
+        res.status(200).json("notifications updated 0")
+    }
+    catch (err) {
+        console.log(err)
+        res.json(err)
+    }
+})
+
+UserRouter.get("/friendCheck/:senderId/:recieverId", async (req, res) => {
+
+    console.log(req.params)
+    try {
+        const friendListInfo = await User.findById(req.params.senderId).select(["friendList"])
+
+        const friend = Array.from(friendListInfo.friendList.filter(user => user.friend_id == req.params.recieverId))
+        console.log(friend)
+        friend.length ? res.status(200).json(true) : res.status(200).json(false)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
+
 })
 
 module.exports = UserRouter

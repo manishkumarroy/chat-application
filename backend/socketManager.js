@@ -1,11 +1,12 @@
 const mongoose = require("mongoose")
 require("./modals/user")
 const User = mongoose.model('user')
+
 const socktetBackend = (server) => {
     const socket = require("socket.io")
-
-
     const io = socket(server)
+
+
 
     const updateMessageOffline = async (senderId, recieverId, msgDetails) => {
 
@@ -85,10 +86,6 @@ const socktetBackend = (server) => {
                 await User.findOne({ email: user.email })
                     .updateOne({ socketId: socket.id, online: true })
 
-                // updateMessagesOfflineFrontendReciever();
-                // pushOfflineMessagesToMessagesReciever();
-                // updateSenderAcknowledgement();
-
 
             }
 
@@ -115,6 +112,7 @@ const socktetBackend = (server) => {
 
                 if (privateUser.socketId != 0) {
                     msgDetails.status = "received"
+
                     updateMessage(msgDetails.recieverId, msgDetails.senderId, msgDetails, 0, privateUser.socketId)
 
                     msgDetails.status = "delivered"
@@ -145,9 +143,6 @@ const socktetBackend = (server) => {
 
 
         })
-
-
-
 
 
 

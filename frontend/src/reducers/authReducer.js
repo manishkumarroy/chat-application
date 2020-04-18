@@ -1,7 +1,8 @@
 const initialState = {
     userDetails: {},
     chatList: [],
-    friendList: []
+    friendList: [],
+    newNotificationsCount: ""
 }
 
 export default (state = initialState, action) => {
@@ -13,6 +14,8 @@ export default (state = initialState, action) => {
         case "setFriendList": return { ...state, friendList: action.payload }
 
         case "setChatList": return { ...state, chatList: action.payload }
+
+        case "setNewNotificationsCount": return { ...state, newNotificationsCount: action.payload }
 
         default: return state
 

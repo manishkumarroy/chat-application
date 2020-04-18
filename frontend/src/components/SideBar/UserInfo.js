@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { sideBarChanger } from '../../actions/sideBarAction'
+import {setNewNotificationsCount} from '../../actions/userAction'
+import axios from 'axios'
+import { backendURL } from '../../config'
 
 function UserInfo(props) {
     const User = props.user
@@ -24,11 +27,15 @@ function UserInfo(props) {
                             value: "showNotifications",
                             type: "contentViewChange"
                         })
+                       props.setNewNotificationsCount(0)
+                    
+                    axios.get(`${backendURL}/user/notifications/seen/${User._id}`).then(data=> console.log(data) )
                     }}>
                     notifications
                   
                 </i>
-                <div className=" rounded-circle p-1 text-light notification-circle" > 2</div>
+                    {props.notificationCount ? <div className=" rounded-circle p-1 text-light notification-circle" >{props.notificationCount}</div> : null }
+               
                 </span>
 
 
@@ -45,7 +52,8 @@ function UserInfo(props) {
 
 const mapStateToProps = (state) => ({
     user: state.user.userDetails,
-    contentViewer: state.sideBarChanger.contentViewer
+    contentViewer: state.sideBarChanger.contentViewer,
+    notificationCount:state.user.newNotificationsCount
 })
 
-export default connect(mapStateToProps, { sideBarChanger })(UserInfo)
+export default connect(mapStateToProps, { sideBarChanger,setNewNotificationsCount })(UserInfo)
