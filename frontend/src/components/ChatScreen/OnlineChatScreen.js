@@ -22,7 +22,7 @@ function OnlineChatScreen(props) {
 
         return <div className="onlineChatScreen clearfix">
             <TopBar user={props.screenView.user.userDeatails} />
-            <MessageScreen className="sc" />
+            <MessageScreen />
             <SendMessageInput />
 
 

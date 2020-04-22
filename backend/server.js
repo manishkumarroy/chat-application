@@ -1,11 +1,9 @@
 //Importing dependencies
 const express = require("express")
 const socketBackend = require("./socketManager")
-
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors")
-
 
 
 //Importing Routes
@@ -36,7 +34,9 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/chatApp', {
     useNewUrlParser: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
+
 
 })
     .then(() => console.log('MongoDB Connected...'))

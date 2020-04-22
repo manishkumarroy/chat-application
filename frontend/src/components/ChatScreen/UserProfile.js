@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { setUserDetails } from '../../actions/userAction'
+import { setUserDetails, setNewNotificationsCount } from '../../actions/userAction'
 import { backendURL } from '../../config'
 import axios from "axios"
+import { socket } from "../ChatWindow/ChatWindow"
+
 
 function UserProfile(props) {
     const [friendCheck, friendCheckState] = useState(null)
@@ -11,13 +13,15 @@ function UserProfile(props) {
     const User = props.userView.type === "friendProfileView" ? props.userView.user.userDetails : props.user
 
     useEffect(() => {
-        if (localStorage.length === 2) {
+        if (localStorage.length >= 1) {
             console.log("working")
             props.setUserDetails({
                 user: JSON.parse(localStorage.getItem("user"))
             }
             )
         }
+        setLoading(false)
+
 
 
 
@@ -27,12 +31,16 @@ function UserProfile(props) {
         console.log("nox run", props)
         if (props.user && props.userView.user.userDetails)
             if (props.userView.user.userDetails._id !== props.user._id) {
-                axios.get(`${backendURL}/user/friendCheck/${props.user._id}/${props.userView.user.userDetails._id}`
+                axios.get(`${backendURL}/user/friendCheck/${props.user._id}/${props.userView.user.userDetails.friend_id}`
 
                 ).then((res) => {
                     setLoading(false)
                     friendCheckState(res.data)
                 })
+
+            }
+            else {
+                setLoading(false)
 
             }
 
@@ -67,9 +75,18 @@ function UserProfile(props) {
                         }
 
                         console.log(data)
-                        axios.post(`${backendURL}/user/addFriend`, data)
+                        socket.emit("newFriendRequest",
+                            data,
 
-                    }}>Add User</button> : <div className="rounded-circle p-2 semiRound bg-primary text-light">Friends</div>}
+                            (data) => {
+                                console.log(data)
+                                props.setNewNotificationsCount(1)
+                            }
+                        )
+                        // axios.post(`${backendURL}/user/addFriend`, data)
+
+
+                    }}>Add User</button> : <div className="p-2 semiRound bg-dark text-light text-center" style={{ width: "90px" }}>Friends</div>}
 
 
                 </div> : null}
@@ -116,7 +133,8 @@ function UserProfile(props) {
 
 const mapStateToProps = (state) => ({
     user: state.user.userDetails,
-    userView: state.chatScreenChanger
+    userView: state.chatScreenChanger,
+    newNotificationsCount: state.user.newNotificationsCount
 })
 
-export default connect(mapStateToProps, { setUserDetails })(UserProfile)
+export default connect(mapStateToProps, { setUserDetails, setNewNotificationsCount })(UserProfile)

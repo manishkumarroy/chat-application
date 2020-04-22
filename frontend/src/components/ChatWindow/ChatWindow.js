@@ -24,6 +24,11 @@ function ChatWindow(props) {
             console.log("dissconnected....")
             socket.emit("disconnect", "user dscnt")
         }
+        socket.on("newFriendRequestFromBackend", (details) => {
+            console.log(details)
+            props.setNewNotificationsCount(1)
+        })
+
         socket.on("privateMessageResponse", (msgDetails) => {
             console.log(msgDetails)
             props.setPrivateMessageResponse(msgDetails)
@@ -39,6 +44,7 @@ function ChatWindow(props) {
             socket.emit("disconnect", "user dscnt")
         }
         if (user._id) {
+
 
             console.log("offline Messages")
             axios.get(`${backendURL}/messages/offlineMessages/${user._id}`).then((response) => {

@@ -1,10 +1,36 @@
 const express = require("express");
 const MessagesUserRouter = express.Router();
 const mongoose = require("mongoose")
+const multer = require('multer')
 
 
 require("../modals/user")
 const User = mongoose.model('user')
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'public/uploads/');
+//     },
+//     filename: function (req, file, cb) {
+//         const ext = file.mimetype.split('/')[1];
+
+//         cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
+//     },
+// });
+
+// const upload = multer({ storage });
+
+const storeMulter = multer.diskStorage({
+    destination: "./public/uploads",
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+
+
+    }
+
+})
+const upload = multer({ storage: storeMulter })
+
 
 MessagesUserRouter.get("/offlineMessages/:id", async (req, res) => {
     try {
@@ -36,6 +62,17 @@ MessagesUserRouter.get("/chats/:id", async (req, res) => {
 
 })
 
+MessagesUserRouter.post('/message/img', upload.single('file-message'), (req, res) => {
+    console.log(req.file)
+    res.status(200).json({
+        status: 'success',
+        data: {
+            message: 'upload successful',
+            imgName: req.file.filename,
+        },
+    });
+}
+)
 
 MessagesUserRouter.post("/chats/:id", async (req, res) => {
     try {

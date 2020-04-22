@@ -10,47 +10,78 @@ class MessageScreen extends Component {
         let messagesInfo = {}
 
 
-        console.log(messagesInfo)
+        console.log(this.props.messages)
         const User = this.props.user
 
-        Array(this.props.messages).forEach((msgInfo) => {
-            console.log("msgInfo")
-            if (msgInfo[0].recieverId === this.props.userMessage.friend_id) {
-                console.log("happening")
 
-                messagesInfo.messages = msgInfo[0].messages;
-                messagesInfo.recieverId = msgInfo[0].recieverId
+        this.props.messages.every((msgInfo) => {
+            console.log(msgInfo)
+            console.log(this.props.userMessage.friend_id)
+            if (msgInfo.recieverId === this.props.userMessage.friend_id) {
+                messagesInfo.messages = msgInfo.messages;
+                messagesInfo.recieverId = msgInfo.recieverId
+                console.log(messagesInfo)
+                return false
+
             }
+
         })
 
         return (
             <div className="messageScreen p-4" style={{ height: "80vh", width: "100%", overflowY: "scroll" }}>
                 {messagesInfo.messages.length ? messagesInfo.messages.map((msg, i) => {
                     if (msg.sender || msg.senderId === User._id)
-                        return <div className=" p-2  rounded message message-sent   card ml-auto" key={i}>
+                        if (msg.imageText) {
+                            return <div className=" p-2  rounded message message-sent   card ml-auto" key={i}>
+                                <img src={msg.imageText} alt="" height="200px" />
 
-                            <p>{msg.messageText}</p>
+                                <div className="extras">
 
-                            <div className="extras">
+                                    <span className="time">{msg.sentTime}</span>
+                                    {!msg.status ? <i className="material-icons">schedule</i> :
+                                        msg.status === "delivered" ?
 
-                                <span className="time">{msg.sentTime}</span>
-                                {!msg.status ? <i className="material-icons">schedule</i> :
-                                    msg.status === "delivered" ?
-
-                                        <i className="material-icons">done_all</i>
-                                        :
-                                        msg.status === "sent" ?
-
-                                            <i className="material-icons">done</i>
+                                            <i className="material-icons">done_all</i>
                                             :
-                                            <i className="material-icons">check_circle</i>}
+                                            msg.status === "sent" ?
 
+                                                <i className="material-icons">done</i>
+                                                :
+                                                <i className="material-icons">check_circle</i>}
+
+
+
+                                </div>
 
 
                             </div>
 
+                        }
+                        else
+                            return <div className=" p-2  rounded message message-sent   card ml-auto" key={i}>
 
-                        </div>
+                                <p>{msg.messageText}</p>
+
+                                <div className="extras">
+
+                                    <span className="time">{msg.sentTime}</span>
+                                    {!msg.status ? <i className="material-icons">schedule</i> :
+                                        msg.status === "delivered" ?
+
+                                            <i className="material-icons">done_all</i>
+                                            :
+                                            msg.status === "sent" ?
+
+                                                <i className="material-icons">done</i>
+                                                :
+                                                <i className="material-icons">check_circle</i>}
+
+
+
+                                </div>
+
+
+                            </div>
 
                     else
 

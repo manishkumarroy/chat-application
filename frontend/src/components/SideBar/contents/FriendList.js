@@ -42,9 +42,7 @@ function FriendList(props) {
         return <h2>loading....</h2>
     else
         if (friends.length) {
-            for (let i = 1; i < 11; i++) {
-                friends[i] = friends[0]
-            }
+
 
             return <div className="friendList">
                 {friends.map(

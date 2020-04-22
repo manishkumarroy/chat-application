@@ -1,12 +1,6 @@
 const express = require("express");
 const UserRouter = express.Router()
-const mongoose = require("mongoose")
-const server = require("../server")
-
-
-require("../modals/user")
-
-const User = mongoose.model('user')
+const User = require("../modals/user")
 
 
 UserRouter.get("/user-by-id/:id", async (req, res) => {
@@ -203,7 +197,7 @@ UserRouter.post("/responseFriendRequest", async (req, res) => {
     if (response === true) {
         try {
             await User.updateOne({ _id: senderId }, {
-                $set: { "friendList.$[friend].stage": "accepted", "friendList.$[friend].new": true }, $push: { "fastMessages": { recieverId: senderId, name: friendName, messages: [] } }
+                $set: { "friendList.$[friend].stage": "accepted", "friendList.$[friend].new": true }, $push: { "fastMessages": { recieverId: friendId, name: friendName, messages: [] } }
             }
                 , {
                     arrayFilters: [{ "friend.friend_id": friendId }]

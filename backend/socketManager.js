@@ -1,83 +1,13 @@
-const mongoose = require("mongoose")
-require("./modals/user")
-const User = mongoose.model('user')
+const User = require("./modals/user")
+const { updateMessageOffline, updateMessage } = require("./socketBackend/helpers/helperMessages")
 
 const socktetBackend = (server) => {
     const socket = require("socket.io")
     const io = socket(server)
 
-
-
-    const updateMessageOffline = async (senderId, recieverId, msgDetails) => {
-
-        let sender = false;
-        let status = "present"
-
-        await User.updateOne({ _id: recieverId }, {
-
-            $push: {
-                "offlineMessages": {
-                    senderId: senderId,
-                    sentTime: msgDetails.sentTime,
-                    messageText: msgDetails.messageText,
-                    sender: sender,
-                    status: status
-
-
-
-                }, upsert: true
-            }
-        })
-
-    }
-
-    const updateMessage = async (senderId, recieverId, msgDetails, acknowledge, socketId) => {
-        let sender = false;
-        let status = null
-        if (senderId === msgDetails.senderId)
-            sender = true;
-        if (msgDetails.status)
-            status = msgDetails.status
-
-        await User.updateOne({ _id: senderId }, {
-
-            $push: {
-                "fastMessages.$[reciever].messages": {
-                    sentTime: msgDetails.sentTime,
-                    messageText: msgDetails.messageText,
-                    sender: sender,
-                    status: status
-
-
-
-                }
-            }
-        }, {
-            "arrayFilters": [{ "reciever.recieverId": recieverId }]
-        })
-
-
-        if (acknowledge) {
-            console.log(socketId)
-            console.log(msgDetails)
-
-            io.to(socketId).emit("privateMessageResponse", msgDetails)
-
-        }
-        else {
-            console.log("wyb")
-            io.to(socketId).emit("privateMessageBackend", msgDetails)
-
-        }
-
-    }
-
-
-
     //Setting up first connection
     io.sockets.on('connection', (socket) => {
-
-        console.log("socket connected")
+        console.log("socket backend connected")
 
         socket.on("newUser", async (user) => {
             console.log("new User", socket.id)
@@ -86,13 +16,8 @@ const socktetBackend = (server) => {
                 await User.findOne({ email: user.email })
                     .updateOne({ socketId: socket.id, online: true })
 
-
             }
-
-
             catch (err) { console.log(err) }
-
-
 
         })
 
@@ -100,7 +25,7 @@ const socktetBackend = (server) => {
 
             await User.updateOne({
                 socketId: socket.id
-            }, { socketId: "0" })
+            }, { socketId: 0 })
         })
 
         socket.on("privateMessage", async (msgDetails) => {
@@ -110,7 +35,7 @@ const socktetBackend = (server) => {
 
                 const sender = await User.findOne({ _id: msgDetails.senderId })
 
-                if (privateUser.socketId != 0) {
+                if (privateUser.socketId !== 0) {
                     msgDetails.status = "received"
 
                     updateMessage(msgDetails.recieverId, msgDetails.senderId, msgDetails, 0, privateUser.socketId)
@@ -144,7 +69,40 @@ const socktetBackend = (server) => {
 
         })
 
+        socket.on("newFriendRequest", async (details, cb) => {
 
+            const { friendId, senderId } = details
+            console.log(details, cb)
+
+            try {
+                const socketId = await User.findById(friendId).select(["socketId"])
+                console.log(socketId.socketId)
+                //if user is online
+                if (socketId) {
+                    io.to(socketId.socketId).emit("newFriendRequestFromBackend", { friend_id: senderId, name: details.senderName, sender: false, stage: 'recieved', email: details.senderEmail, new: true })
+
+
+                }
+                //set backend of friend
+                await User.findByIdAndUpdate(friendId, {
+                    $push: { friendList: { friend_id: senderId, name: details.senderName, sender: false, stage: 'recieved', email: details.senderEmail, new: true } },
+
+                })
+                console.log("here")
+                cb({ friend_id: friendId, name: details.friendName, status: false, sender: true, stage: 'sent', email: details.friendEmail, new: true })
+
+                await User.findByIdAndUpdate(senderId, {
+                    $push: { friendList: { friend_id: friendId, name: details.friendName, status: false, sender: true, stage: 'sent', email: details.friendEmail, new: true } },
+
+                })
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+
+
+        })
 
 
     })

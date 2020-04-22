@@ -1,5 +1,6 @@
 
 export const setFastMessages = (message, initial) => dispatch => {
+
     return dispatch({
         type: initial ? "setInitialFastMessages" : "setFastMessages",
         payload: message

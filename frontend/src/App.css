@@ -140,8 +140,7 @@ p{
  font-size: 13px;
  background-color: rgba(17, 185, 59, 0.87) !important;
 }
-.notification-accepted{
-}
+
 .notification-accepted i{
   font-size: 17px;
   margin-right: 5px;
@@ -227,7 +226,6 @@ height:inherit;
 color: white !important;
  border: none;
  font-size: 16px;
- background-color: ;
  
  
 }
@@ -339,8 +337,8 @@ border-top-right-radius: 50px;
 
 
 .messageScreen .message-sent{
-  background-color: rgba(11, 118, 206, 0.918);
-  color: white;
+  background-color: rgb(85, 131, 218);
+  color: rgb(255, 255, 255);
 }
 
 .message .extras{
@@ -419,10 +417,7 @@ height: 90vh;
 .sideBar .searchContainer .searchBox{
  flex: 1;
 }
-.sideBar .searchContainer .back{
-  
-  
-}
+
 
 .sideBar .searchContainer i{
 
@@ -455,4 +450,8 @@ height: 90vh;
   .chatWindow .profileScreen{
     width:65vw;
   }
+}
+
+input[type='file']{
+  display:none
 }

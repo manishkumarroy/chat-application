@@ -9,7 +9,9 @@ const chatScreenChanger = (state = initalState, action) => {
 
         case 'friendProfileView': return { type: 'friendProfileView', user: action.payload }
         case 'messageView': return { type: 'messageView', user: action.payload }
+        case 'userProfileView': return { user: action.payload }
         default: return state
+
     }
 
 }

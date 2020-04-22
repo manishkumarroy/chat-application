@@ -1,5 +1,5 @@
 export const setUserDetails = (userDetails) => dispatch => {
-    if (localStorage.length === 1)
+    if (localStorage.length >= 1)
         localStorage.setItem("user", JSON.stringify(userDetails.user))
     return dispatch({
         type: "setUserDetails",

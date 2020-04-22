@@ -31,7 +31,8 @@ const userSchema = new Schema({
             sentTime: { type: String, require: true },
             receivedTime: { type: Date },
             messageText: { type: String, require: true }, sender: { type: Boolean, require: true },
-            status: { type: String, require: true }
+            status: { type: String, require: true },
+            type: { type: String, default: 'text' }
         }],
 
 
@@ -74,4 +75,5 @@ const userSchema = new Schema({
 
 })
 
-mongoose.model('user', userSchema)
+const User = mongoose.model('user', userSchema)
+module.exports = User

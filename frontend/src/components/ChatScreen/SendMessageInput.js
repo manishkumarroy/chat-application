@@ -76,8 +76,51 @@ function SendMessageInput(props) {
         <div className="sendMessageInput  p-3 rounded">
             <i className="material-icons">emoji_emotions</i>
             <i className="material-icons">gradient</i>
+            <i className="material-icons" onClick={() => {
+                document.querySelector(".file-input").click()
+            }}>images</i>
+            <label>
+                <input type="file" name="img-message" id="" className="d-none file-input" onChange={(e) => {
+                    Array.from(e.target.files).forEach(async (file, i) => {
+                        console.log("imsge---")
+                        props.setFastMessages({
+                            imageText: URL.createObjectURL(file),
 
-            <i className="material-icons">images</i>
+                            recieverId: props.reciever.friend_id,
+                            senderId: props.user._id,
+                            sentTime: new Date().toLocaleTimeString(),
+                            status: "waiting"
+
+
+                        })
+
+                        let formData = new FormData();
+
+                        formData.set("file-message", file)
+                        console.log(e.target.files, formData)
+                        try {
+                            const response = await axios({
+                                method: "post",
+                                url: `${backendURL}/messages/message/img`,
+                                headers: { 'Content-Type': 'multipart/form-data' },
+                                data: formData,
+                                onUploadProgress: (upload) => {
+                                    console.log(upload.loaded + " ")
+                                }
+                            })
+                            console.log(response)
+
+
+                        } catch (err) {
+                            console.log(err)
+                        }
+
+                    })
+
+
+                }} />
+            </label>
+
 
             <input
                 type="text"
