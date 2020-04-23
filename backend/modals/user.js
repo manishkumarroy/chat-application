@@ -10,9 +10,9 @@ const userSchema = new Schema({
     joinedDate: { type: Date, require: true },
     friendList: [
         {
-            friend_id: { type: Schema.Types.ObjectId, ref: 'user' },
+            friend_id: { type: Schema.Types.ObjectId, ref: 'user', unique: true },
 
-            name: { type: String, require: true },
+            name: { type: String, require: true, unique: true },
             new: { type: Boolean },
             dpURL: { type: String },
             stage: { type: String, required: true, default: "none" },

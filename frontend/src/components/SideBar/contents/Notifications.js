@@ -21,7 +21,7 @@ function Notifications(props) {
     }, [])
 
     let data = notifications.filter(notify => notify.stage == "accepted" && !notify.sender)
-    let data2 = notifications.filter(notify => notify.stage == "sender" && notify.sender)
+    let data2 = notifications.filter(notify => notify.stage == "sent" && notify.sender)
     return (
         <div className={loading === true ? "notification-list centerFlex" : "notification -list"} >
             {loading ? <h1> loading</h1> :

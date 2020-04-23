@@ -74,9 +74,19 @@ const socktetBackend = (server) => {
             const { friendId, senderId } = details
             console.log(details, cb)
 
+
             try {
+
+                const user = await User.findById(senderId)
+                user.friendList.forEach(user => {
+                    console.log(user)
+                    if (user.friend_id == friendId)
+                        throw new Error("user already exists")
+
+                })
                 const socketId = await User.findById(friendId).select(["socketId"])
                 console.log(socketId.socketId)
+
                 //if user is online
                 if (socketId) {
                     io.to(socketId.socketId).emit("newFriendRequestFromBackend", { friend_id: senderId, name: details.senderName, sender: false, stage: 'recieved', email: details.senderEmail, new: true })
@@ -98,6 +108,7 @@ const socktetBackend = (server) => {
             }
             catch (err) {
                 console.log(err)
+
             }
 
 
