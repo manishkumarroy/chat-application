@@ -1,5 +1,5 @@
 const User = require("./modals/user")
-const updateMessage = require("./socketBackend/helpers/helperMessages")
+const { updateMessage, updateMessageOffline } = require("./socketBackend/helpers/helperMessages")
 
 const socktetBackend = (server) => {
     const socket = require("socket.io")

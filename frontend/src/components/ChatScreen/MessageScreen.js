@@ -7,25 +7,25 @@ class MessageScreen extends Component {
     render() {
 
 
-        let messagesInfo = {}
+        let messagesInfo = { messages: [] }
 
 
         console.log(this.props.messages)
         const User = this.props.user
 
+        if (this.props.messages.length)
+            this.props.messages.every((msgInfo) => {
+                console.log(msgInfo)
+                console.log(this.props.userMessage.friend_id)
+                if (msgInfo.recieverId === this.props.userMessage.friend_id) {
+                    messagesInfo.messages = msgInfo.messages;
+                    messagesInfo.recieverId = msgInfo.recieverId
+                    console.log(messagesInfo)
+                    return false
 
-        this.props.messages.every((msgInfo) => {
-            console.log(msgInfo)
-            console.log(this.props.userMessage.friend_id)
-            if (msgInfo.recieverId === this.props.userMessage.friend_id) {
-                messagesInfo.messages = msgInfo.messages;
-                messagesInfo.recieverId = msgInfo.recieverId
-                console.log(messagesInfo)
-                return false
+                }
 
-            }
-
-        })
+            })
 
         return (
             <div className="messageScreen p-4" style={{ height: "80vh", width: "100%", overflowY: "scroll" }}>

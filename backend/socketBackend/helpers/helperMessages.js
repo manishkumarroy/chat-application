@@ -61,6 +61,6 @@ const updateMessage = async (senderId, recieverId, msgDetails, acknowledge, sock
 
 }
 
-module.exports = updateMessage
-module.exports = updateMessageOffline
+module.exports = { updateMessage: updateMessage, updateMessageOffline: updateMessageOffline }
+
 
