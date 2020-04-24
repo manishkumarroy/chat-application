@@ -31,7 +31,7 @@ function UserProfile(props) {
         console.log("nox run", props)
         if (props.user && props.userView.user.userDetails)
             if (props.userView.user.userDetails._id !== props.user._id) {
-                axios.get(`${backendURL}/user/friendCheck/${props.user._id}/${props.userView.user.userDetails.friend_id}`
+                axios.get(`${backendURL}/user/friendCheck/${props.user._id}/${props.userView.user.userDetails.friend_id || props.userView.user.userDetails._id}`
 
                 ).then((res) => {
                     setLoading(false)
@@ -63,7 +63,7 @@ function UserProfile(props) {
             {props.userView.type === "friendProfileView" ?
 
                 <div className="centerFlexRow">
-                    {!friendCheck ? <button className="btn btn-success semiRound mt-2" onClick={(e) => {
+                    {friendCheck === "noFriends" ? <button className="btn btn-success semiRound mt-2" onClick={(e) => {
 
                         const data = {
                             friendId: props.userView.user.userDetails._id,
@@ -80,13 +80,13 @@ function UserProfile(props) {
 
                             (data) => {
                                 console.log(data)
-                                props.setNewNotificationsCount(1)
+                                friendCheckState("friendRequestSent")
                             }
                         )
                         // axios.post(`${backendURL}/user/addFriend`, data)
 
 
-                    }}>Add User</button> : <div className="p-2 semiRound bg-dark text-light text-center" style={{ width: "90px" }}>Friends</div>}
+                    }}>Add User</button> : friendCheck === "friends" ? <button className="btn btn-primary semiRound mt-2">Friends</button> : <button className="btn btn-primary semiRound mt-2">Request Sent</button>}
 
 
                 </div> : null}

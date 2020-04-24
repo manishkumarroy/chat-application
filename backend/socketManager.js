@@ -1,5 +1,5 @@
 const User = require("./modals/user")
-const { updateMessageOffline, updateMessage } = require("./socketBackend/helpers/helperMessages")
+const updateMessage = require("./socketBackend/helpers/helperMessages")
 
 const socktetBackend = (server) => {
     const socket = require("socket.io")
@@ -38,11 +38,11 @@ const socktetBackend = (server) => {
                 if (privateUser.socketId !== 0) {
                     msgDetails.status = "received"
 
-                    updateMessage(msgDetails.recieverId, msgDetails.senderId, msgDetails, 0, privateUser.socketId)
+                    updateMessage(msgDetails.recieverId, msgDetails.senderId, msgDetails, 0, privateUser.socketId, io)
 
                     msgDetails.status = "delivered"
 
-                    updateMessage(msgDetails.senderId, msgDetails.recieverId, msgDetails, 1, sender.socketId)
+                    updateMessage(msgDetails.senderId, msgDetails.recieverId, msgDetails, 1, sender.socketId, io)
 
                 }
 

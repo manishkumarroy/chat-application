@@ -1,5 +1,5 @@
 const User = require("../../modals/user")
-module.exports = updateMessageOffline = async (senderId, recieverId, msgDetails) => {
+updateMessageOffline = async (senderId, recieverId, msgDetails) => {
 
     let sender = false;
     let status = "present"
@@ -22,7 +22,8 @@ module.exports = updateMessageOffline = async (senderId, recieverId, msgDetails)
 
 }
 
-module.exports = updateMessage = async (senderId, recieverId, msgDetails, acknowledge, socketId) => {
+const updateMessage = async (senderId, recieverId, msgDetails, acknowledge, socketId, io) => {
+    console.log("object")
     let sender = false;
     let status = null
     if (senderId === msgDetails.senderId)
@@ -60,4 +61,6 @@ module.exports = updateMessage = async (senderId, recieverId, msgDetails, acknow
 
 }
 
+module.exports = updateMessage
+module.exports = updateMessageOffline
 

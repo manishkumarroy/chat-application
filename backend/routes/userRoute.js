@@ -44,7 +44,7 @@ UserRouter.post("/register", async (req, res) => {
     try {
         await new User(newUser).save()
 
-        let msg = ["User Registered Succesfully"]
+        let msg = { type: "success", data: "User Registered Succesfully" }
 
         res.status(200).json(msg)
     }
@@ -52,7 +52,7 @@ UserRouter.post("/register", async (req, res) => {
     catch (err) {
         console.log("Error of mongoDB ", err)
 
-        res.status(400).json({ msgError: "Some Problem Occured" })
+        res.status(400).json({ type: "fail", data: "Some server error may be user already exists" })
 
     }
 
@@ -126,8 +126,8 @@ UserRouter.get("/friends/:id", async (req, res) => {
         const user = await User.find({ _id: userId })
         if (user.length) {
 
-
-            res.status(200).json(...Array(user[0].friendList))
+            let friends = user[0].friendList.filter(user => user.stage === "accepted")
+            res.status(200).json(friends)
         }
 
         else
@@ -141,32 +141,32 @@ UserRouter.get("/friends/:id", async (req, res) => {
 })
 
 
-UserRouter.post("/addFriend", async (req, res) => {
-    const friendId = req.body.friendId;
-    const senderId = req.body.senderId;
+// UserRouter.post("/addFriend", async (req, res) => {
+//     const friendId = req.body.friendId;
+//     const senderId = req.body.senderId;
 
 
 
-    console.log(req.body.senderId)
-    console.log(req.body)
+//     console.log(req.body.senderId)
+//     console.log(req.body)
 
 
-    try {
-        await User.findByIdAndUpdate(senderId, {
-            $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: 'sent', email: req.body.friendEmail, new: true } },
+//     try {
+//         await User.findByIdAndUpdate(senderId, {
+//             $push: { friendList: { friend_id: friendId, name: req.body.friendName, status: false, sender: true, stage: 'sent', email: req.body.friendEmail, new: true } },
 
-        })
+//         })
 
-        await User.findByIdAndUpdate(friendId, {
-            $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: 'recieved', email: req.body.senderEmail, new: true } },
+//         await User.findByIdAndUpdate(friendId, {
+//             $push: { friendList: { friend_id: senderId, name: req.body.senderName, status: false, sender: false, stage: 'recieved', email: req.body.senderEmail, new: true } },
 
-        })
+//         })
 
-    }
-    catch (err) {
-        console.log(err)
-    }
-})
+//     }
+//     catch (err) {
+//         console.log(err)
+//     }
+// })
 
 async function removeFriend(senderId, recieverId) {
     console.log("deleting")
@@ -284,7 +284,7 @@ UserRouter.get("/friendCheck/:senderId/:recieverId", async (req, res) => {
 
         const friend = Array.from(friendListInfo.friendList.filter(user => user.friend_id == req.params.recieverId))
         console.log(friend)
-        friend.length ? res.status(200).json(true) : res.status(200).json(false)
+        friend.length ? friend[0].stage === "accepted" ? res.status(200).json("friends") : res.status(200).json("friendRequestSent") : res.status(200).json("noFriends")
     }
     catch (err) {
         console.log(err)
